@@ -83,7 +83,7 @@ Under `block/add/ngbeans-app`, create your first NgBeans Angular application.
 1. Enter a Label.
 2. Enter a Title.
 3. Check which Angular libraries/resources your application will use. The module automatically
-loads angular.js
+loads `angular.js`.
 4. Enter or paste your markup into the NG Markup field. This is your Angular application.
 It should be all your code from the ng-app directive and below.
 5. Enter or paste your Angular Javascript code into the NG Code field. Do not use
