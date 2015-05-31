@@ -31,9 +31,10 @@ class NgBeans extends BeanPlugin {
   /**
    * Builds extra settings for the block edit form.
    *
-   * NOTE: These fields are stored serialized within the data field in the
+   * NOTE: These fields are stored serialized within the "data" field in the
    *   bean table. These are not entity fields. In this module, field_markup
-   *   and field_code need to be added as
+   *   and field_code are added using the entity system. Otherwise, the
+   *   optional Ace Editor will not work.
    */
   public function form($bean, $form, &$form_state) {
     $form = array();
