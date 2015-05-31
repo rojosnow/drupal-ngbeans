@@ -30,8 +30,8 @@ The module depends upon the following:
 
 ### Clone the module
 **While this module is listed under drupal-ngbeans, the module name is ngbeans.**
-Below is an example of the checkout (*nix based). Replace NGBEANS_INSTALL_PATH 
-and NGBEANS_BRANCH with your specific values. 
+Below is an example of the checkout (*nix based). Replace `NGBEANS_INSTALL_PATH` 
+and `NGBEANS_BRANCH` with your specific values. 
 You don't have to use environmental variables. I only use them for clarity.
 
 ```bash
@@ -44,14 +44,14 @@ git clone https://github.com/rojosnow/drupal-ngbeans.git --branch $NGBEANS_BRANC
 ```
 
 ### Install the Angular library
-1. Download the zip version of the Angular 1.3.15 library from 
-<a href="https://angularjs.org" target="_blank">https://angularjs.org</a>
+1. Download the zip version of the Angular 1.3.15 library from the 
+<a href="https://angularjs.org" target="_blank">downloads</a>.
 2. Uncompress the zip file.
-3. Under sites/all/libraries, create an angular folder. Within the angular folder,
+3. Under `sites/all/libraries`, create an angular folder. Within the angular folder,
 copy in **only the .js and .min.js** Angular library files.
-4. You don't need to copy in the angular-scenario.js or angular-mocks.js files
+4. You don't need to copy in the `angular-scenario.js` or `angular-mocks.js` files
 are they are not used.
-5. PLEASE NOTE that the NgBeans module declares the Angular library (hook_library) and this 
+5. PLEASE NOTE that the NgBeans module declares the Angular library (`hook_library`) and this 
 may or may not work for your situation if you've declared the Angular library
 elsewhere.
 
@@ -68,17 +68,17 @@ Installation instructions are found above and not covered here.
 Use your favorite method to enable the NgBeans module.
 
 ### Set your permissions
-Make sure to set permissions (admin/people/permissions) on the Bean module. 
+Make sure to set permissions (`admin/people/permissions`) on the Bean module. 
 You might look to find this under the NgBeans module. It isn't. NgBeans is 
 like a "content type" but for a Bean and not a node. Look at the permissions
 under Bean. It should make more sense once you see it. By default, the administrator has full
 permissions. You'll need to change these settings.
 
 ## Using NgBeans
-Under admin/structure/block-types, you'll see a Bean called NgBeans App. This has
+Under `admin/structure/block-types`, you'll see a Bean called NgBeans App. This has
 been created by the NgBeans module. Feel free to add additional fields if needed.
 
-Under block/add/ngbeans-app, create your first NgBeans Angular application.
+Under `block/add/ngbeans-app`, create your first NgBeans Angular application.
 
 1. Enter a Label.
 2. Enter a Title.
@@ -89,7 +89,7 @@ It should be all your code from the ng-app directive and below.
 5. Enter or paste your Angular Javascript code into the NG Code field. Do not use
 script tags. If you have multiple files, you will need to combine your code.
 6. Save your NgBean. The page will refresh and will be be displayed on the page.
-7. To place your NgBean in a region, go to admin/structure/block and find your
+7. To place your NgBean in a region, go to `admin/structure/block` and find your
 NgBean. Add it to a region like any other normal block.
 
 **Example**
@@ -100,7 +100,7 @@ NgBean. Add it to a region like any other normal block.
 - Enter the following into NG Markup<br>
 ```html
 <div ng-app="demo">
-  <span>Enter text: </span>
+  <span>Enter text:</span>
   <input type="text" ng-model="data.message">
   <h1>{{data.message}}</h1>
 </div>
@@ -118,7 +118,7 @@ box. Congrats! You've made your first Angular application with Drupal.
 
 I realize the use of the word "block" is confusing since blocks now refer to
 Drupal core blocks and Bean blocks. You'll see Block menu options under
-admin/content and admin/structure. And, there is a new Blocks tab under admin/content.
+`admin/content` and `admin/structure`. And, there is a new Blocks tab under `admin/content`.
 Take a few moments to get familiar with the new menus Bean has added.
 
 Enjoy!
@@ -128,8 +128,9 @@ Robert Jordan (rojosnow) - robert@jordanjr.com
 
 
 ## Credits
-Development of this module was sponsored by [Rally](https://www.rallydev.com), a 
+Development of this module was sponsored by 
+<a href="https://www.rallydev.com" target="_blank">Rally</a>, a 
 leading agile and business agility software and services provider.
 
 Inspiration and code from Jitesh Doshi's 
-sandbox: [restng](https://www.drupal.org/sandbox/jitesh_doshi/2125941)
+sandbox: <a href="https://www.drupal.org/sandbox/jitesh_doshi/2125941" target="_blank">restng</a>
