@@ -1,0 +1,121 @@
+<?php
+/**
+ * @file
+ * ngbeans install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ngbeans_install() {
+  // Create the markup and code fields if not present.
+  if (field_info_field('ng_markup') == NULL) {
+    $field_markup = array(
+      'field_name' => 'ng_markup',
+      'type' => 'text_long',
+    );
+    field_create_field($field_markup);
+  }
+  if (field_info_field('ng_code') == NULL) {
+    $field_code = array(
+      'field_name' => 'ng_code',
+      'type' => 'text_long',
+    );
+    field_create_field($field_code);
+  }
+
+  // Create the markup and code instances if not present.
+  if (field_info_instance('bean', 'ng_markup', 'ngbeans_app') == NULL) {
+    $instance_markup = array(
+      'field_name' => 'ng_markup',
+      'entity_type' => 'bean',
+      'bundle' => 'ngbeans_app',
+      'label' => 'NG Markup',
+      'description' => 'Enter the HTML markup for the Angular application.',
+      'required' => TRUE,
+      'settings' => array(),
+      'widget' => array(
+        'type' => 'text_textarea',
+        'weight' => 1,
+      ),
+    );
+    field_create_instance($instance_markup);
+  }
+  if (field_info_instance('bean', 'ng_code', 'ngbeans_app') == NULL) {
+    $instance_code = array(
+      'field_name' => 'ng_code',
+      'entity_type' => 'bean',
+      'bundle' => 'ngbeans_app',
+      'label' => 'NG Code',
+      'description' => 'Enter the Javascript code for the Angular application. Do not enter script tags.',
+      'required' => TRUE,
+      'settings' => array(),
+      'widget' => array(
+        'type' => 'text_textarea',
+        'weight' => 2,
+      ),
+    );
+    field_create_instance($instance_code);
+  }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ngbeans_enable() {
+  bean_reset(TRUE);
+  // Add administrator permissions for the bean types created.
+  $role_admin = user_role_load_by_name('administrator');
+  user_role_grant_permissions($role_admin->rid, array(
+    'create any ngbeans_app bean',
+    'edit any ngbeans_app bean',
+    'view any ngbeans_app bean',
+    'delete any ngbeans_app bean',
+  ));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ngbeans_disable() {
+  // Remove all of the currently placed blocks
+
+  // Delete any blocks
+  // @see block_custom_block_delete_submit()
+  if (module_exists('block')) {
+    db_delete('block')
+      ->condition('module', 'ngbeans')
+      ->execute();
+    db_delete('block_role')
+      ->condition('module', 'ngbeans')
+      ->execute();
+
+    // @see node_form_block_custom_block_delete_submit()
+    db_delete('block_node_type')
+      ->condition('module', 'ngbeans')
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ngbeans_uninstall() {
+  //@TODO Should this delete all upon uninstall?
+  return;
+
+  // Remove bean content.
+  db_delete('bean')
+    ->condition('type', 'ngbeans_app')
+    ->execute();
+
+  // Remove bean revisions.
+  db_delete('bean_revision')
+    ->condition('type', 'ngbeans_app')
+    ->execute();
+
+  // Remove fields.
+  field_delete_field('ng_markup');
+  field_delete_field('ng_code');
+  field_purge_batch(100);
+}

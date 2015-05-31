@@ -1,0 +1,254 @@
+<?php
+/**
+ * @file
+ * Drupal Bean module for AngularJS applications.
+ */
+
+/**
+ * Implements hook_bean_types_api_info().
+ */
+function ngbeans_bean_types_api_info() {
+  return array('api' => 5);
+}
+
+/**
+ * Implements hook_bean_types().
+ */
+function ngbeans_bean_types() {
+  $plugins = array();
+
+  // Set the path.
+  $plugin_path = drupal_get_path('module', 'ngbeans') . '/plugins/bean';
+
+  // Display an angular app.
+  $plugins['ngbeans_app'] = array(
+    'label' => t('NgBeans App'),
+    'description' => t('Display an Angular application using Beans.'),
+    'abstract' => FALSE,
+    'handler' => array(
+      'class' => 'NgBeans',
+      'parent' => 'bean',
+    ),
+    'path' => $plugin_path,
+    'file' => 'NgBeans.class.php',
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ngbeans_permission() {
+  $perms = array(
+    'administer ngbeans settings' => array(
+      'title' => t('Administer NgBeans Settings'),
+    ),
+  );
+
+  return $perms;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ngbeans_theme($existing, $type, $theme, $path) {
+  $items = array();
+
+  // ngbeans Angular app.
+  $items['ngbeans_app'] = array(
+    'variables' => array(
+      'ng_markup' => '',
+      'ng_code' => '',
+    ),
+    'path' => $path . '/theme',
+    'file' => 'ngbeans.theme.inc',
+    'template' => 'ngbeans_app',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ngbeans_form_alter(&$form, &$form_state, $form_id) {
+  // Optional support for the Ace Editor for markup and javascript text areas.
+  if ($form_id == 'bean_form') {
+    $formIdent = $form_id ;
+    // Add JavaScript to the form if the ace editor library is installed.
+    if (module_exists('ace_editor') && ace_editor_library_installed()) {
+      $form['ace_editor_identifier'] = array(
+        '#type' => 'hidden',
+        '#value' => $formIdent,
+      );
+      $form['#after_build'] = array('ace_editor_node_block_edit_form_attach_js');
+    }
+  }
+}
+
+/**
+ * Implements hook_library().
+ */
+function ngbeans_library() {
+  $libs = array();
+
+  // Declare the Angular library.
+  $libs['angular'] = array(
+    'title' => 'Angular',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.003,
+      ),
+    ),
+  );
+
+  // Declare the Angular Animate library.
+  $libs['angular.animate'] = array(
+    'title' => 'Angular Animate',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-animate.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Aria library.
+  $libs['angular.aria'] = array(
+    'title' => 'Angular Aria',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-aria.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Cookies library.
+  $libs['angular.cookies'] = array(
+    'title' => 'Angular Cookies',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-cookies.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Loader library.
+  $libs['angular.loader'] = array(
+    'title' => 'Angular Loader',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-loader.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Messages library.
+  $libs['angular.messages'] = array(
+    'title' => 'Angular Messages',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-messages.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Resource library.
+  $libs['angular.resource'] = array(
+    'title' => 'Angular Resource',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-resource.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Route library.
+  $libs['angular.route'] = array(
+    'title' => 'Angular Route',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-route.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Sanitize library.
+  $libs['angular.sanitize'] = array(
+    'title' => 'Angular Sanitize',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-sanitize.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  // Declare the Angular Touch library.
+  $libs['angular.touch'] = array(
+    'title' => 'Angular Touch',
+    'website' => 'https://angularjs.org/',
+    'version' => '1.3.15',
+    'js' => array(
+      libraries_get_path('angular') . '/angular-touch.min.js' => array(
+        'group' => JS_LIBRARY,
+        'weight' => -1.002,
+      ),
+    ),
+    'dependencies' => array(
+      array('ngbeans', 'angular',),
+    ),
+  );
+
+  return $libs;
+}

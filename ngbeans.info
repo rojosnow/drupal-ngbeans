@@ -1,0 +1,14 @@
+name = NG Beans
+description = "Drupal Bean module for AngularJS applications."
+package = "Bean"
+core = 7.x
+version = "7.x-0.1"
+php = "5.3"
+
+;configure = admin/people/permissions
+
+dependencies[] = bean
+dependencies[] = libraries
+
+; All plugin files must be registered in the .info file.
+files[] = "plugins/bean/NgBeans.class.php"
